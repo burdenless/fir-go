@@ -3,16 +3,17 @@ package main
 import (
 	"fmt"
 
-	"github.com/byt3smith/fir_go_client"
+	"github.com/byt3smith/fir-go"
 )
 
 func main() {
 
-	client := firGo.NewFIRClient(nil, "https://firoku.herokuapp.com")
-	incidentlist, _, err := client.Incident.Get()
+	client := firGo.NewFIRClient(nil, "https://firoku.herokuapp.com", "4dcbbbd7d865f2647f281945ce8465c8eda9f481")
+
+	incidentlist, err := firGo.ListIncidents(client)
 	if err != nil {
-		fmt.Println(incidentlist)
-	} else {
 		fmt.Println(err)
 	}
+
+	fmt.Println(incidentlist)
 }

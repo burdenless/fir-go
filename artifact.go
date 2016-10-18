@@ -1,19 +1,6 @@
 package firGo
 
-// ArtifactService is an interface for interfacing with the Account
-// endpoints of the DigitalOcean API
-// See: https://developers.digitalocean.com/documentation/v2/#account
-type ArtifactService interface {
-	Get() (*Artifact, *Response, error)
-}
-
-// ArtifactServiceOp handles communication with the Account related methods of
-// the DigitalOcean API.
-type ArtifactServiceOp struct {
-	client *Client
-}
-
-var _ ArtifactService = &ArtifactServiceOp{}
+import "fmt"
 
 // Artifact represents a FIR Artifact
 type Artifact struct {
@@ -26,24 +13,16 @@ type Artifact struct {
 	StatusMessage   string `json:"status_message,omitempty"`
 }
 
-type artifactRoot struct {
-	Artifact *Artifact `json:"artifact"`
-}
-
-// Get FIR artifacts info
-func (s *ArtifactServiceOp) Get() (*Artifact, *Response, error) {
+// ArtifactList lists FIR artifacts info
+func ArtifactList(client *Client) error {
 	path := "/artifacts"
 
-	req, err := s.client.NewRequest("GET", path, nil)
+	req, err := client.NewRequest("GET", path)
 	if err != nil {
-		return nil, nil, err
+		return err
 	}
 
-	root := new(artifactRoot)
-	resp, err := s.client.Do(req, root)
-	if err != nil {
-		return nil, resp, err
-	}
+	fmt.Println(req)
 
-	return root.Artifact, resp, err
+	return err
 }

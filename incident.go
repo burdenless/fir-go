@@ -1,21 +1,10 @@
 package firGo
 
-import "fmt"
-
-// IncidentService is an interface for interfacing with the Account
-// endpoints of the DigitalOcean API
-// See: https://developers.digitalocean.com/documentation/v2/#account
-type IncidentService interface {
-	Get() (*Incident, *Response, error)
-}
-
-// IncidentServiceOp handles communication with the Incident related methods of
-// the Fast Incident Response API.
-type IncidentServiceOp struct {
-	client *Client
-}
-
-var _ IncidentService = &IncidentServiceOp{}
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+)
 
 // Incident represents a FIR Incident
 type Incident struct {
@@ -32,25 +21,34 @@ type Incident struct {
 	IsMajor     bool     `json:"is_major,omitempty"`
 }
 
-// IncidentRoot is the root of the Incident object
-type IncidentRoot struct {
-	Incident *Incident `json:"incident"`
-}
+// IncidentList is an array of Incidents
+type IncidentList []Incident
 
-// Get FIR artifacts info
-func (s *IncidentServiceOp) Get() (*Incident, *Response, error) {
+// ListIncidents current FIR incidents
+func ListIncidents(client *Client) (IncidentList, error) {
 	path := "/incidents"
-	fmt.Println("Calling incidents endpoint!")
-	req, err := s.client.NewRequest("GET", path, nil)
+
+	req, err := client.NewRequest("GET", path)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	root := new(IncidentRoot)
-	resp, err := s.client.Do(req, root)
-	if err != nil {
-		return nil, resp, err
+	resp, err := client.Do(req)
+
+	if resp.StatusCode == 200 { // OK
+		bodyBytes, err2 := ioutil.ReadAll(resp.Body)
+		if err2 != nil {
+			fmt.Println(err2)
+		}
+		bodyString := string(bodyBytes)
+		res := []Incident{}
+		json.Unmarshal([]byte(bodyString), &res)
+		fmt.Println("[ Server Response ]", resp)
+
+		return res, nil
 	}
 
-	return root.Incident, resp, err
+	fmt.Println("[ ERROR ] ", err)
+	return nil, err
+
 }
