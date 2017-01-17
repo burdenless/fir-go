@@ -15,6 +15,11 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println(incidents["results"], "\n")
 
-	fmt.Println(incidents["results"])
+	artifacts, err := firGo.ListArtifacts(client)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(artifacts["results"], "\n")
 }

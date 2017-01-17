@@ -1,28 +1,37 @@
 package firGo
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+)
 
-// Artifact represents a FIR Artifact
-type Artifact struct {
-	DropletLimit    int    `json:"droplet_limit,omitempty"`
-	FloatingIPLimit int    `json:"floating_ip_limit,omitempty"`
-	Email           string `json:"email,omitempty"`
-	UUID            string `json:"uuid,omitempty"`
-	EmailVerified   bool   `json:"email_verified,omitempty"`
-	Status          string `json:"status,omitempty"`
-	StatusMessage   string `json:"status_message,omitempty"`
-}
-
-// ArtifactList lists FIR artifacts info
-func ArtifactList(client *Client) error {
+// ListArtifacts lists FIR artifacts, returns a map
+func ListArtifacts(client *Client) (map[string]interface{}, error) {
 	path := "/artifacts"
 
 	req, err := client.NewRequest("GET", path)
 	if err != nil {
-		return err
+		fmt.Println(err)
+		return nil, err
 	}
 
-	fmt.Println(req)
+	resp, err := client.Do(req)
 
-	return err
+	if resp.StatusCode == 200 { // OK
+		bodyBytes, err2 := ioutil.ReadAll(resp.Body)
+		if err2 != nil {
+			fmt.Println("ERROR.1 :", err2)
+		}
+
+		var dat map[string]interface{}
+    if err := json.Unmarshal(bodyBytes, &dat); err != nil {
+        panic(err)
+    }
+
+		return dat, nil
+	}
+
+	fmt.Println("ERROR.2 :", err)
+	return nil, err
 }
