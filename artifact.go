@@ -10,7 +10,7 @@ import (
 func ListArtifacts(client *Client) (map[string]interface{}, error) {
 	path := "/artifacts"
 
-	req, err := client.NewRequest("GET", path)
+	req, err := client.NewRequest("GET", path, nil)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err

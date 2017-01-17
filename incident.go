@@ -6,11 +6,31 @@ import (
 	"io/ioutil"
 )
 
+type Incident struct {
+		Id 							int `json:"id"`
+		Detection 			int `json:"detection"`
+		Actor 					int `json:"actor"`
+		Plan 						int `json:"plan"`
+		FileSet 				[]string `json:"file_set"`
+		Date 						string `json:"date"`
+		IsStarred 			bool `json:"is_starred"`
+		Subject 				string `json:"subject"`
+		Description 		string `json:"description"`
+		Severity 				int `json:"severity"`
+		IsIncident		 	bool `json:"is_incident"`
+		IsMajor	 				bool `json:"is_major"`
+		Status 					string `json:"status"`
+		Confidentiality int `json:"confidentiality"`
+		Category 				int `json:"category"`
+		OpenedBy 				int `json:"opened_by"`
+		BizLines 				[]string `json:"concerned_business_lines"`
+}
+
+const path = "/incidents"
+
 // ListIncidents current FIR incidents
 func ListIncidents(client *Client) (map[string]interface{}, error) {
-	path := "/incidents"
-
-	req, err := client.NewRequest("GET", path)
+	req, err := client.NewRequest("GET", path, nil)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -34,5 +54,19 @@ func ListIncidents(client *Client) (map[string]interface{}, error) {
 
 	fmt.Println("[ ERROR ] ", err)
 	return nil, err
+}
 
+func AddIncident(client *Client, object map[string]interface{}) (Incident, error) {
+	req, err := client.NewRequest("POST", path, object)
+	if err != nil {
+		fmt.Println(err)
+		return Incident{}, err
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("ERROR.1: ", err)
+	}
+	fmt.Println(resp)
+	return Incident{}, err
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"encoding/json"
 )
 
 const (
@@ -39,12 +40,16 @@ func NewFIRClient(baseHost string, token string) (c *Client) {
 }
 
 // NewRequest creates an API request.
-func (c *Client) NewRequest(method, path string) (*http.Request, error) {
+func (c *Client) NewRequest(method string, path string, params map[string]interface{}) (*http.Request, error) {
 	base := c.BaseURL.String()
 	fullURL := fmt.Sprintf("%s%s", base, path)
 	fmt.Printf("[*] URL being called: %s\n", fullURL)
 
 	buf := new(bytes.Buffer)
+	if params != nil {
+		params, _ := json.Marshal(params)
+		buf = bytes.NewBuffer(params)
+	}
 	req, err := http.NewRequest(method, fullURL, buf)
 	if err != nil {
 		return nil, err
@@ -58,9 +63,7 @@ func (c *Client) NewRequest(method, path string) (*http.Request, error) {
 	return req, err
 }
 
-// Do sends an API request and returns the API response. The API response is JSON decoded and stored in the value
-// pointed to by v, or returned as an error if an API error has occurred. If v implements the io.Writer interface,
-// the raw response will be written to v, without attempting to decode it.
+// Do sends an API request and returns the API response.
 func (c *Client) Do(req *http.Request) (*http.Response, error) {
 	resp, err := c.client.Do(req)
 	if err != nil {
