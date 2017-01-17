@@ -29,15 +29,11 @@ type Client struct {
 }
 
 // NewFIRClient returns a new FIR API client.
-func NewFIRClient(client *http.Client, baseHost string, token string) (c *Client) {
-	if client == nil {
-		client = http.DefaultClient
-	}
+func NewFIRClient(baseHost string, token string) (c *Client) {
+	client := http.DefaultClient
 
 	baseURL, _ := url.Parse(baseHost + "/api")
 	c = &Client{client: client, BaseURL: baseURL, UserAgent: userAgent, Token: "Token " + token}
-
-	fmt.Printf("[+] New client created!\n")
 
 	return c
 }
