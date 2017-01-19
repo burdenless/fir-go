@@ -47,8 +47,8 @@ func (c *Client) NewRequest(method string, path string, params map[string]interf
 
 	buf := new(bytes.Buffer)
 	if params != nil {
-		params, _ := json.Marshal(params)
-		buf = bytes.NewBuffer(params)
+		jParams, _ := json.Marshal(params)
+		buf = bytes.NewBuffer(jParams)
 	}
 	req, err := http.NewRequest(method, fullURL, buf)
 	if err != nil {

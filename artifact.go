@@ -6,11 +6,11 @@ import (
 	"io/ioutil"
 )
 
+const artifactsPath = "/artifacts"
+
 // ListArtifacts lists FIR artifacts, returns a map
 func ListArtifacts(client *Client) (map[string]interface{}, error) {
-	path := "/artifacts"
-
-	req, err := client.NewRequest("GET", path, nil)
+	req, err := client.NewRequest("GET", artifactsPath, nil)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err

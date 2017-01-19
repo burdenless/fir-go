@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 )
 
-type Incident struct {
+type User struct {
 		Id 							int `json:"id"`
 		Detection 			int `json:"detection"`
 		Actor 					int `json:"actor"`
@@ -26,11 +26,11 @@ type Incident struct {
 		BizLines 				[]string `json:"concerned_business_lines"`
 }
 
-const incidentsPath = "/incidents"
+const usersPath = "/users"
 
-// ListIncidents current FIR incidents
-func ListIncidents(client *Client) (map[string]interface{}, error) {
-	req, err := client.NewRequest("GET", incidentsPath, nil)
+// ListUsers current FIR incidents
+func ListUsers(client *Client) (map[string]interface{}, error) {
+  req, err := client.NewRequest("GET", usersPath, nil)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -52,21 +52,12 @@ func ListIncidents(client *Client) (map[string]interface{}, error) {
 		return dat, nil
 	}
 
-	fmt.Println("ERROR.2 ", err)
+	fmt.Println("ERROR.2 :", err)
 	return nil, err
 }
 
-func AddIncident(client *Client, object map[string]interface{}) (Incident, error) {
-	req, err := client.NewRequest("POST", incidentsPath, object)
-	if err != nil {
-		fmt.Println(err)
-		return Incident{}, err
-	}
+func AddUser(client *Client, object map[string]interface{}) (User, error) {
+	_, err := client.NewRequest("POST", usersPath, object)
 
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println("ERROR.1: ", err)
-	}
-	fmt.Println(resp)
-	return Incident{}, err
+	return User{}, err
 }
