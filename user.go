@@ -11,11 +11,11 @@ type UserInterface interface {
 }
 
 type User struct {
-	Id 					int `json:"id"`
-	Groups 			[]int `json:"groups"`
-	Email 			string `json:"email"`
-	Username 		string `json:"username"`
-	URL 				string `json:"url"`
+	Id       int    `json:"id"`
+	Groups   []int  `json:"groups"`
+	Email    string `json:"email"`
+	Username string `json:"username"`
+	URL      string `json:"url"`
 }
 
 type UserServiceObj struct {
@@ -26,7 +26,7 @@ const usersPath = "/users"
 
 // ListUsers current FIR incidents
 func (us *UserServiceObj) List() (map[string]interface{}, error) {
-  req, err := us.client.NewRequest("GET", usersPath, nil)
+	req, err := us.client.NewRequest("GET", usersPath, nil)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -41,9 +41,9 @@ func (us *UserServiceObj) List() (map[string]interface{}, error) {
 		}
 
 		var dat map[string]interface{}
-    if err := json.Unmarshal(bodyBytes, &dat); err != nil {
-        panic(err)
-    }
+		if err := json.Unmarshal(bodyBytes, &dat); err != nil {
+			panic(err)
+		}
 
 		return dat, nil
 	}

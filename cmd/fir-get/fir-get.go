@@ -26,7 +26,6 @@ func main() {
 	}
 	fmt.Println(artifacts, "\n")
 
-
 	// Get users
 	users, err := client.Users.List()
 	if err != nil {

@@ -11,9 +11,9 @@ type ArtifactInterface interface {
 }
 
 type Artifact struct {
-	Id 				int 		 `json:"id"`
-	Type 			string 	 `json:"type"`
-	Value 		string 	 `json:"value"`
+	Id        int      `json:"id"`
+	Type      string   `json:"type"`
+	Value     string   `json:"value"`
 	Artifacts []string `json:"artifacts"`
 }
 
@@ -22,6 +22,7 @@ type ArtifactServiceObj struct {
 }
 
 var _ ArtifactInterface = &ArtifactServiceObj{}
+
 const artifactsPath = "/artifacts"
 
 func (a Artifact) String() string {
@@ -45,9 +46,9 @@ func (as *ArtifactServiceObj) List() (map[string]interface{}, error) {
 		}
 
 		var dat map[string]interface{}
-    if err := json.Unmarshal(bodyBytes, &dat); err != nil {
-        panic(err)
-    }
+		if err := json.Unmarshal(bodyBytes, &dat); err != nil {
+			panic(err)
+		}
 
 		return dat, nil
 	}

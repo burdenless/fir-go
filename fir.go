@@ -2,10 +2,10 @@ package firGo
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
-	"encoding/json"
 )
 
 const (
@@ -31,7 +31,7 @@ type Client struct {
 	// Client Methods
 	Incidents IncidentInterface
 	Artifacts ArtifactInterface
-	Users 		UserInterface
+	Users     UserInterface
 }
 
 // NewFIRClient returns a new FIR API client.

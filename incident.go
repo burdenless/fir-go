@@ -12,23 +12,23 @@ type IncidentInterface interface {
 }
 
 type Incident struct {
-	Id 							int `json:"id",omitempty`
-	Detection 			int `json:"detection",omitempty`
-	Actor 					int `json:"actor",omitempty`
-	Plan 						int `json:"plan",omitempty`
-	FileSet 				[]string `json:"file_set",omitempty`
-	Date 						string `json:"date",omitempty`
-	IsStarred 			bool `json:"is_starred",omitempty`
-	Subject 				string `json:"subject",omitempty`
-	Description 		string `json:"description",omitempty`
-	Severity 				int `json:"severity",omitempty`
-	IsIncident		 	bool `json:"is_incident",omitempty`
-	IsMajor	 				bool `json:"is_major",omitempty`
-	Status 					string `json:"status",omitempty`
-	Confidentiality int `json:"confidentiality",omitempty`
-	Category 				int `json:"category",omitempty`
-	OpenedBy 				int `json:"opened_by",omitempty`
-	BizLines 				[]string `json:"concerned_business_lines",omitempty`
+	Id              int      `json:"id",omitempty`
+	Detection       int      `json:"detection",omitempty`
+	Actor           int      `json:"actor",omitempty`
+	Plan            int      `json:"plan",omitempty`
+	FileSet         []string `json:"file_set",omitempty`
+	Date            string   `json:"date",omitempty`
+	IsStarred       bool     `json:"is_starred",omitempty`
+	Subject         string   `json:"subject",omitempty`
+	Description     string   `json:"description",omitempty`
+	Severity        int      `json:"severity",omitempty`
+	IsIncident      bool     `json:"is_incident",omitempty`
+	IsMajor         bool     `json:"is_major",omitempty`
+	Status          string   `json:"status",omitempty`
+	Confidentiality int      `json:"confidentiality",omitempty`
+	Category        int      `json:"category",omitempty`
+	OpenedBy        int      `json:"opened_by",omitempty`
+	BizLines        []string `json:"concerned_business_lines",omitempty`
 }
 
 type IncidentServiceObj struct {
@@ -36,6 +36,7 @@ type IncidentServiceObj struct {
 }
 
 var _ IncidentInterface = &IncidentServiceObj{}
+
 const incidentsPath = "/incidents"
 
 func (a Incident) String() string {
@@ -59,9 +60,9 @@ func (is *IncidentServiceObj) List() (map[string]interface{}, error) {
 		}
 
 		var dat map[string]interface{}
-    if err := json.Unmarshal(bodyBytes, &dat); err != nil {
-        panic(err)
-    }
+		if err := json.Unmarshal(bodyBytes, &dat); err != nil {
+			panic(err)
+		}
 
 		return dat, nil
 	}
