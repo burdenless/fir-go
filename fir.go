@@ -27,6 +27,11 @@ type Client struct {
 
 	// Token for authentication
 	Token string
+
+	// Client Methods
+	Incidents IncidentInterface
+	Artifacts ArtifactInterface
+	Users 		UserInterface
 }
 
 // NewFIRClient returns a new FIR API client.
@@ -35,6 +40,9 @@ func NewFIRClient(baseHost string, token string) (c *Client) {
 
 	baseURL, _ := url.Parse(baseHost + "/api")
 	c = &Client{client: client, BaseURL: baseURL, UserAgent: userAgent, Token: "Token " + token}
+	c.Incidents = &IncidentServiceObj{client: c}
+	c.Artifacts = &ArtifactServiceObj{client: c}
+	c.Users = &UserServiceObj{client: c}
 
 	return c
 }
@@ -43,6 +51,8 @@ func NewFIRClient(baseHost string, token string) (c *Client) {
 func (c *Client) NewRequest(method string, path string, params map[string]interface{}) (*http.Request, error) {
 	base := c.BaseURL.String()
 	fullURL := fmt.Sprintf("%s%s", base, path)
+
+	// Remove before release!!!!
 	fmt.Printf("[*] URL being called: %s\n", fullURL)
 
 	buf := new(bytes.Buffer)

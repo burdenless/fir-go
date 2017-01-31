@@ -13,24 +13,24 @@ func main() {
 	client := firGo.NewFIRClient(base, token)
 
 	// Get incidents
-	incidents, err := firGo.ListIncidents(client)
+	incidents, err := client.Incidents.List()
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(incidents["results"], "\n")
+	fmt.Println(incidents, "\n")
 
 	// Get artifacts
-	artifacts, err := firGo.ListArtifacts(client)
+	artifacts, err := client.Artifacts.List()
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(artifacts["results"], "\n")
+	fmt.Println(artifacts, "\n")
 
 
 	// Get users
-	users, err := firGo.ListUsers(client)
+	users, err := client.Users.List()
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(users["results"], "\n")
+	fmt.Println(users, "\n")
 }

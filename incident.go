@@ -6,37 +6,51 @@ import (
 	"io/ioutil"
 )
 
-type Incident struct {
-		Id 							int `json:"id"`
-		Detection 			int `json:"detection"`
-		Actor 					int `json:"actor"`
-		Plan 						int `json:"plan"`
-		FileSet 				[]string `json:"file_set"`
-		Date 						string `json:"date"`
-		IsStarred 			bool `json:"is_starred"`
-		Subject 				string `json:"subject"`
-		Description 		string `json:"description"`
-		Severity 				int `json:"severity"`
-		IsIncident		 	bool `json:"is_incident"`
-		IsMajor	 				bool `json:"is_major"`
-		Status 					string `json:"status"`
-		Confidentiality int `json:"confidentiality"`
-		Category 				int `json:"category"`
-		OpenedBy 				int `json:"opened_by"`
-		BizLines 				[]string `json:"concerned_business_lines"`
+type IncidentInterface interface {
+	List() (map[string]interface{}, error)
+	Create(map[string]interface{}) (Incident, error)
 }
 
+type Incident struct {
+	Id 							int `json:"id",omitempty`
+	Detection 			int `json:"detection",omitempty`
+	Actor 					int `json:"actor",omitempty`
+	Plan 						int `json:"plan",omitempty`
+	FileSet 				[]string `json:"file_set",omitempty`
+	Date 						string `json:"date",omitempty`
+	IsStarred 			bool `json:"is_starred",omitempty`
+	Subject 				string `json:"subject",omitempty`
+	Description 		string `json:"description",omitempty`
+	Severity 				int `json:"severity",omitempty`
+	IsIncident		 	bool `json:"is_incident",omitempty`
+	IsMajor	 				bool `json:"is_major",omitempty`
+	Status 					string `json:"status",omitempty`
+	Confidentiality int `json:"confidentiality",omitempty`
+	Category 				int `json:"category",omitempty`
+	OpenedBy 				int `json:"opened_by",omitempty`
+	BizLines 				[]string `json:"concerned_business_lines",omitempty`
+}
+
+type IncidentServiceObj struct {
+	client *Client
+}
+
+var _ IncidentInterface = &IncidentServiceObj{}
 const incidentsPath = "/incidents"
 
+func (a Incident) String() string {
+	return Stringify(a)
+}
+
 // ListIncidents current FIR incidents
-func ListIncidents(client *Client) (map[string]interface{}, error) {
-	req, err := client.NewRequest("GET", incidentsPath, nil)
+func (is *IncidentServiceObj) List() (map[string]interface{}, error) {
+	req, err := is.client.NewRequest("GET", incidentsPath, nil)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
 
-	resp, err := client.Do(req)
+	resp, err := is.client.Do(req)
 
 	if resp.StatusCode == 200 { // OK
 		bodyBytes, err2 := ioutil.ReadAll(resp.Body)
@@ -56,14 +70,14 @@ func ListIncidents(client *Client) (map[string]interface{}, error) {
 	return nil, err
 }
 
-func AddIncident(client *Client, object map[string]interface{}) (Incident, error) {
-	req, err := client.NewRequest("POST", incidentsPath, object)
+func (is *IncidentServiceObj) Create(object map[string]interface{}) (Incident, error) {
+	req, err := is.client.NewRequest("POST", incidentsPath, object)
 	if err != nil {
 		fmt.Println(err)
 		return Incident{}, err
 	}
 
-	resp, err := client.Do(req)
+	resp, err := is.client.Do(req)
 	if err != nil {
 		fmt.Println("ERROR.1: ", err)
 	}
