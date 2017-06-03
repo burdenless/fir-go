@@ -5,21 +5,29 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http/httputil"
 )
 
 // UsersInterface is an interface for all user struct methods
 type UsersInterface interface {
 	List() ([]User, error)
-	Create(*User) error
+	Create(*UserRequest) error
 }
 
 // User type
 type User struct {
-	ID       int    `json:"id"`
-	Groups   []int  `json:"groups"`
-	Email    string `json:"email"`
-	Username string `json:"username"`
-	URL      string `json:"url"`
+	ID       int    `json:"id",omitempty`
+	Groups   []int  `json:"groups",omitempty`
+	Email    string `json:"email",omitempty`
+	Username string `json:"username",omitempty`
+	URL      string `json:"url",omitempty`
+}
+
+// UserRequest type is User without an ID
+type UserRequest struct {
+	Email    string `json:"email",omitempty`
+	Username string `json:"username",omitempty`
+	URL      string `json:"url",omitempty`
 }
 
 // UserResponse holds a response from FIR
@@ -67,11 +75,17 @@ func (us *UserServiceObj) List() ([]User, error) {
 }
 
 // Create takes in user information and creates a new FIR user
-func (us *UserServiceObj) Create(user *User) error {
+func (us *UserServiceObj) Create(user *UserRequest) error {
 	req, err := us.client.NewRequest("POST", usersPath, user)
 	if err != nil {
 		return err
 	}
+
+	dump, err := httputil.DumpRequestOut(req, true)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%q", dump)
 
 	resp, err := us.client.Do(req)
 
