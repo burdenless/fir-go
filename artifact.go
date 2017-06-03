@@ -7,11 +7,11 @@ import (
 )
 
 type ArtifactInterface interface {
-	List() (map[string]interface{}, error)
+	List() ([]Artifact, error)
 }
 
 type Artifact struct {
-	Id        int      `json:"id"`
+	ID        int      `json:"id"`
 	Type      string   `json:"type"`
 	Value     string   `json:"value"`
 	Artifacts []string `json:"artifacts"`
@@ -19,6 +19,14 @@ type Artifact struct {
 
 type ArtifactServiceObj struct {
 	client *Client
+}
+
+// ArtifactResponse holds metadata and an array of Artifacts
+type ArtifactResponse struct {
+	Count    int
+	Next     string
+	Previous string
+	Results  []Artifact
 }
 
 var _ ArtifactInterface = &ArtifactServiceObj{}
@@ -30,7 +38,7 @@ func (a Artifact) String() string {
 }
 
 // ListArtifacts lists FIR artifacts, returns a map
-func (as *ArtifactServiceObj) List() (map[string]interface{}, error) {
+func (as *ArtifactServiceObj) List() ([]Artifact, error) {
 	req, err := as.client.NewRequest("GET", artifactsPath, nil)
 	if err != nil {
 		fmt.Println(err)
@@ -45,12 +53,12 @@ func (as *ArtifactServiceObj) List() (map[string]interface{}, error) {
 			fmt.Println("ERROR.1 :", err2)
 		}
 
-		var dat map[string]interface{}
+		var dat ArtifactResponse
 		if err := json.Unmarshal(bodyBytes, &dat); err != nil {
 			panic(err)
 		}
 
-		return dat, nil
+		return dat.Results, nil
 	}
 
 	fmt.Println("ERROR.2 :", err)

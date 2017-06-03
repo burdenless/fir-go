@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/byt3smith/fir-go"
 )
 
@@ -17,6 +18,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println("Current Incident Listing:")
 	fmt.Println(incidents, "\n")
 
 	// Get artifacts
@@ -24,6 +26,8 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	fmt.Println("Current Artifact Listing:")
 	fmt.Println(artifacts, "\n")
 
 	// Get users
@@ -31,5 +35,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	fmt.Println("Current User Listing:")
 	fmt.Println(users, "\n")
 }

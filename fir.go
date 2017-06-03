@@ -31,7 +31,7 @@ type Client struct {
 	// Client Methods
 	Incidents IncidentInterface
 	Artifacts ArtifactInterface
-	Users     UserInterface
+	Users     UsersInterface
 }
 
 // NewFIRClient returns a new FIR API client.
@@ -48,12 +48,9 @@ func NewFIRClient(baseHost string, token string) (c *Client) {
 }
 
 // NewRequest creates an API request.
-func (c *Client) NewRequest(method string, path string, params map[string]interface{}) (*http.Request, error) {
+func (c *Client) NewRequest(method string, path string, params interface{}) (*http.Request, error) {
 	base := c.BaseURL.String()
 	fullURL := fmt.Sprintf("%s%s", base, path)
-
-	// Remove before release!!!!
-	fmt.Printf("[*] URL being called: %s\n", fullURL)
 
 	buf := new(bytes.Buffer)
 	if params != nil {

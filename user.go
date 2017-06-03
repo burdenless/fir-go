@@ -4,28 +4,42 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 )
 
-type UserInterface interface {
-	List() (map[string]interface{}, error)
+// UsersInterface is an interface for all user struct methods
+type UsersInterface interface {
+	List() ([]User, error)
+	Create(*User) error
 }
 
+// User type
 type User struct {
-	Id       int    `json:"id"`
+	ID       int    `json:"id"`
 	Groups   []int  `json:"groups"`
 	Email    string `json:"email"`
 	Username string `json:"username"`
 	URL      string `json:"url"`
 }
 
+// UserResponse holds a response from FIR
+type UserResponse struct {
+	Count    int
+	Next     string
+	Previous string
+	Results  []User
+}
+
+// UserServiceObj is a struct that allows client to
+// receive new methods
 type UserServiceObj struct {
 	client *Client
 }
 
 const usersPath = "/users"
 
-// ListUsers current FIR incidents
-func (us *UserServiceObj) List() (map[string]interface{}, error) {
+// List current FIR incidents
+func (us *UserServiceObj) List() ([]User, error) {
 	req, err := us.client.NewRequest("GET", usersPath, nil)
 	if err != nil {
 		fmt.Println(err)
@@ -40,20 +54,31 @@ func (us *UserServiceObj) List() (map[string]interface{}, error) {
 			fmt.Println("ERROR.1 :", err2)
 		}
 
-		var dat map[string]interface{}
+		var dat UserResponse
 		if err := json.Unmarshal(bodyBytes, &dat); err != nil {
 			panic(err)
 		}
 
-		return dat, nil
+		return dat.Results, nil
 	}
 
 	fmt.Println("ERROR.2 :", err)
 	return nil, err
 }
 
-func (us *UserServiceObj) Create(object map[string]interface{}) (User, error) {
-	_, err := us.client.NewRequest("POST", usersPath, object)
+// Create takes in user information and creates a new FIR user
+func (us *UserServiceObj) Create(user *User) error {
+	req, err := us.client.NewRequest("POST", usersPath, user)
+	if err != nil {
+		return err
+	}
 
-	return User{}, err
+	resp, err := us.client.Do(req)
+
+	if resp.StatusCode != 200 || err != nil {
+		log.Println("Status Code:", resp.StatusCode)
+		return err
+	}
+
+	return nil
 }
