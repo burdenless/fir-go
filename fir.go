@@ -54,9 +54,12 @@ func (c *Client) NewRequest(method string, path string, params interface{}) (*ht
 
 	buf := new(bytes.Buffer)
 	if params != nil {
-		jParams, _ := json.Marshal(params)
-		buf = bytes.NewBuffer(jParams)
+		err := json.NewEncoder(buf).Encode(params)
+		if err != nil {
+			return nil, err
+		}
 	}
+
 	req, err := http.NewRequest(method, fullURL, buf)
 	if err != nil {
 		return nil, err
