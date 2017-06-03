@@ -14,7 +14,7 @@ func main() {
 	// Instantiate new FIR client
 	client := firGo.NewFIRClient(base, token)
 
-	u := firGo.UserRequest{Username: "joe"}
+	u := firGo.UserRequest{Username: "test"}
 
 	err := client.Users.Create(&u)
 	if err != nil {
