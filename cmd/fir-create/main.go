@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/byt3smith/fir-go"
 )
 
 func main() {
-	base := "https://firoku.herokuapp.com"
-	token := "4dcbbbd7d865f2647f281945ce8465c8eda9f481"
+	base := os.Getenv("FIR_BASE_URL")
+	token := os.Getenv("FIR_APIKEY")
 
 	// Instantiate new FIR client
 	client := firGo.NewFIRClient(base, token)
