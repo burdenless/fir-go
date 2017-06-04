@@ -4,24 +4,30 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 )
+
+const artifactsPath = "/artifacts"
 
 type ArtifactInterface interface {
 	List() ([]Artifact, error)
+	Create(*ArtifactRequest) error
 }
 
+// Artifact is an object model for FIR artifacts
 type Artifact struct {
-	ID        int      `json:"id"`
-	Type      string   `json:"type"`
-	Value     string   `json:"value"`
-	Artifacts []string `json:"artifacts"`
+	ID    int    `json:"id"`
+	Type  string `json:"type"`
+	Value string `json:"value"`
 }
 
-type ArtifactServiceObj struct {
-	client *Client
+// ArtifactRequest type is Artifact without an ID
+type ArtifactRequest struct {
+	Type  string `json:"type",omitempty`
+	Value string `json:"value",omitempty`
 }
 
-// ArtifactResponse holds metadata and an array of Artifacts
+// ArtifactResponse holds a response from FIR
 type ArtifactResponse struct {
 	Count    int
 	Next     string
@@ -29,15 +35,13 @@ type ArtifactResponse struct {
 	Results  []Artifact
 }
 
-var _ ArtifactInterface = &ArtifactServiceObj{}
-
-const artifactsPath = "/artifacts"
-
-func (a Artifact) String() string {
-	return Stringify(a)
+type ArtifactServiceObj struct {
+	client *Client
 }
 
-// ListArtifacts lists FIR artifacts, returns a map
+var _ ArtifactInterface = &ArtifactServiceObj{}
+
+// List lists FIR artifacts
 func (as *ArtifactServiceObj) List() ([]Artifact, error) {
 	req, err := as.client.NewRequest("GET", artifactsPath, nil)
 	if err != nil {
@@ -63,4 +67,20 @@ func (as *ArtifactServiceObj) List() ([]Artifact, error) {
 
 	fmt.Println("ERROR.2 :", err)
 	return nil, err
+}
+
+// Create adds a new artifact to FIR
+func (as *ArtifactServiceObj) Create(a *ArtifactRequest) error {
+	req, err := as.client.NewRequest("POST", artifactsPath, a)
+	if err != nil {
+		return err
+	}
+
+	resp, err := as.client.Do(req)
+
+	if resp.StatusCode != 200 || err != nil {
+		log.Println("Status Code:", resp.StatusCode)
+		return err
+	}
+	return nil
 }

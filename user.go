@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net/http/httputil"
 )
+
+const usersPath = "/users"
 
 // UsersInterface is an interface for all user struct methods
 type UsersInterface interface {
@@ -14,7 +15,7 @@ type UsersInterface interface {
 	Create(*UserRequest) error
 }
 
-// User type
+// User is a model for FIR users
 type User struct {
 	ID       int    `json:"id",omitempty`
 	Groups   []int  `json:"groups",omitempty`
@@ -43,8 +44,6 @@ type UserResponse struct {
 type UserServiceObj struct {
 	client *Client
 }
-
-const usersPath = "/users"
 
 // List current FIR incidents
 func (us *UserServiceObj) List() ([]User, error) {
@@ -80,12 +79,6 @@ func (us *UserServiceObj) Create(user *UserRequest) error {
 	if err != nil {
 		return err
 	}
-
-	dump, err := httputil.DumpRequestOut(req, true)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("%q", dump)
 
 	resp, err := us.client.Do(req)
 

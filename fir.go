@@ -59,7 +59,7 @@ func (c *Client) NewRequest(method string, path string, params interface{}) (*ht
 			return nil, err
 		}
 	}
-	fmt.Println(buf)
+
 	req, err := http.NewRequest(method, fullURL, buf)
 	if err != nil {
 		return nil, err
