@@ -17,40 +17,40 @@ type IncidentInterface interface {
 
 // Incident struct is the model for FIR incidents
 type Incident struct {
-	ID              int      `json:"id",omitempty`
-	Detection       int      `json:"detection",omitempty`
-	Actor           int      `json:"actor",omitempty`
-	Plan            int      `json:"plan",omitempty`
-	FileSet         []string `json:"file_set",omitempty`
-	Date            string   `json:"date",omitempty`
-	IsStarred       bool     `json:"is_starred",omitempty`
-	Subject         string   `json:"subject",omitempty`
-	Description     string   `json:"description",omitempty`
-	Severity        int      `json:"severity",omitempty`
-	IsIncident      bool     `json:"is_incident",omitempty`
-	IsMajor         bool     `json:"is_major",omitempty`
-	Status          string   `json:"status",omitempty`
-	Confidentiality int      `json:"confidentiality",omitempty`
-	Category        int      `json:"category",omitempty`
-	OpenedBy        int      `json:"opened_by",omitempty`
-	BizLines        []int    `json:"concerned_business_lines",omitempty`
+	ID              int      `json:"id,omitempty"`
+	Detection       int      `json:"detection,omitempty"`
+	Actor           int      `json:"actor,omitempty"`
+	Plan            int      `json:"plan,omitempty"`
+	FileSet         []string `json:"file_set,omitempty"`
+	Date            string   `json:"date,omitempty"`
+	IsStarred       bool     `json:"is_starred,omitempty"`
+	Subject         string   `json:"subject,omitempty"`
+	Description     string   `json:"description,omitempty"`
+	Severity        int      `json:"severity,omitempty"`
+	IsIncident      bool     `json:"is_incident,omitempty"`
+	IsMajor         bool     `json:"is_major,omitempty"`
+	Status          string   `json:"status,omitempty"`
+	Confidentiality int      `json:"confidentiality,omitempty"`
+	Category        int      `json:"category,omitempty"`
+	OpenedBy        int      `json:"opened_by,omitempty"`
+	BizLines        []int    `json:"concerned_business_lines,omitempty"`
 }
 
 // IncidentRequest is a model for creating/updating incidents
 type IncidentRequest struct {
-	Detection       int    `json:"detection",omitempty`
-	Actor           int    `json:"actor",omitempty`
-	Plan            int    `json:"plan",omitempty`
-	Date            string `json:"date",omitempty`
-	IsStarred       bool   `json:"is_starred",omitempty`
-	Subject         string `json:"subject",omitempty`
-	Description     string `json:"description",omitempty`
-	Severity        int    `json:"severity",omitempty`
-	IsIncident      bool   `json:"is_incident",omitempty`
-	IsMajor         bool   `json:"is_major",omitempty`
-	Confidentiality int    `json:"confidentiality",omitempty`
-	Category        int    `json:"category",omitempty`
-	OpenedBy        int    `json:"opened_by",omitempty`
+	Detection       int    `json:"detection,omitempty"`
+	Actor           int    `json:"actor,omitempty"`
+	Plan            int    `json:"plan,omitempty"`
+	Date            string `json:"date,omitempty"`
+	IsStarred       bool   `json:"is_starred,omitempty"`
+	Subject         string `json:"subject,omitempty"`
+	Description     string `json:"description,omitempty"`
+	Severity        int    `json:"severity,omitempty"`
+	IsIncident      bool   `json:"is_incident,omitempty"`
+	IsMajor         bool   `json:"is_major,omitempty"`
+	Confidentiality int    `json:"confidentiality,omitempty"`
+	Category        int    `json:"category,omitempty"`
+	OpenedBy        int    `json:"opened_by,omitempty"`
 	//BizLines        []string `json:"concerned_business_lines",omitempty`
 }
 

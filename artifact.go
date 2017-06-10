@@ -24,8 +24,8 @@ type Artifact struct {
 
 // ArtifactRequest type is Artifact without an ID
 type ArtifactRequest struct {
-	Type  string `json:"type",omitempty`
-	Value string `json:"value",omitempty`
+	Type  string `json:"type,omitempty"`
+	Value string `json:"value,omitempty"`
 }
 
 // ArtifactResponse holds a response from FIR

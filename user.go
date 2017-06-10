@@ -17,18 +17,18 @@ type UsersInterface interface {
 
 // User is a model for FIR users
 type User struct {
-	ID       int    `json:"id",omitempty`
-	Groups   []int  `json:"groups",omitempty`
-	Email    string `json:"email",omitempty`
-	Username string `json:"username",omitempty`
-	URL      string `json:"url",omitempty`
+	ID       int    `json:"id,omitempty"`
+	Groups   []int  `json:"groups,omitempty"`
+	Email    string `json:"email,omitempty"`
+	Username string `json:"username,omitempty"`
+	URL      string `json:"url,omitempty"`
 }
 
 // UserRequest type is User without an ID
 type UserRequest struct {
-	Email    string `json:"email",omitempty`
-	Username string `json:"username",omitempty`
-	URL      string `json:"url",omitempty`
+	Email    string `json:"email,omitempty"`
+	Username string `json:"username,omitempty"`
+	URL      string `json:"url,omitempty"`
 }
 
 // UserResponse holds a response from FIR
