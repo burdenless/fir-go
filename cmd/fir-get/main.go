@@ -20,7 +20,7 @@ func main() {
 		fmt.Println(err)
 	}
 	fmt.Println("Current Incident Listing:")
-	fmt.Println(incidents, "\n")
+	fmt.Printf("%v\n\n", incidents)
 
 	// Get artifacts
 	artifacts, err := client.Artifacts.List()
@@ -29,7 +29,7 @@ func main() {
 	}
 
 	fmt.Println("Current Artifact Listing:")
-	fmt.Println(artifacts, "\n")
+	fmt.Printf("%v\n\n", artifacts)
 
 	// Get users
 	users, err := client.Users.List()
@@ -38,5 +38,5 @@ func main() {
 	}
 
 	fmt.Println("Current User Listing:")
-	fmt.Println(users, "\n")
+	fmt.Printf("%v\n\n", users)
 }
