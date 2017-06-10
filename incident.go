@@ -54,6 +54,7 @@ type IncidentRequest struct {
 	//BizLines        []string `json:"concerned_business_lines",omitempty`
 }
 
+// IncidentServiceObj registers Incidents as a service to the client
 type IncidentServiceObj struct {
 	client *Client
 }

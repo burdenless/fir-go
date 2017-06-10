@@ -9,6 +9,7 @@ import (
 
 const artifactsPath = "/artifacts"
 
+// ArtifactInterface holds methods for the Artifact object
 type ArtifactInterface interface {
 	List() ([]Artifact, error)
 	Create(*ArtifactRequest) error
@@ -35,6 +36,7 @@ type ArtifactResponse struct {
 	Results  []Artifact
 }
 
+// ArtifactServiceObj registers Artifact as a service available to the client
 type ArtifactServiceObj struct {
 	client *Client
 }

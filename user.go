@@ -39,8 +39,7 @@ type UserResponse struct {
 	Results  []User
 }
 
-// UserServiceObj is a struct that allows client to
-// receive new methods
+// UserServiceObj registers User as a service to the client
 type UserServiceObj struct {
 	client *Client
 }
