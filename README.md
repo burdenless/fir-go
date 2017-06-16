@@ -1,5 +1,6 @@
 # FIR Go Client
 [![Go Report Card](https://goreportcard.com/badge/github.com/byt3smith/fir-go)](https://goreportcard.com/report/github.com/byt3smith/fir-go)
+[![Build Status](https://travis-ci.org/byt3smith/fir-go.svg?branch=master)](https://travis-ci.org/byt3smith/fir-go)
 
 FirGo is a Go client library for accessing the Fast Incident Response API.
 
