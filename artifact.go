@@ -60,7 +60,7 @@ func (as *ArtifactServiceObj) List() ([]Artifact, error) {
 		}
 
 		var dat ArtifactResponse
-		if err := json.Unmarshal(bodyBytes, &dat); err != nil {
+		if jsonErr := json.Unmarshal(bodyBytes, &dat); jsonErr != nil {
 			panic(err)
 		}
 
